@@ -1,0 +1,33 @@
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-main);
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.head__title {
+  flex: 1;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-left: 17%;
+  text-align: left;
+}
+
+.head__title_main {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--color-dark);
+  font-size: 1.625rem;
+}
+
+.head__title_sub {
+  font-weight: 500;
+  font-size: 1.25rem;
+  color: var(--color-gray);
+  margin-top: 0.25rem;
+}
+
+
