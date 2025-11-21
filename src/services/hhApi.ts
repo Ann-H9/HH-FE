@@ -24,7 +24,7 @@ export async function fetchVacancies(params: FetchParams = {}): Promise<Vacancie
 
   const response = await axios.get<VacanciesResponse>(API_URL, {
     params: {
-      industry: 7, // IT
+      industry: 7, 
       professional_role: 96, 
       text,
       area,

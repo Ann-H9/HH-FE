@@ -4,10 +4,18 @@ import CitySelect from '../../components/CitySelect/CitySelect';
 import SkillTags from '../../components/SkillTags/SkillTags';
 import VacanciesPagination from '../../components/Pagination/Pagination';
 import VacancyCard from '../../components/VacancyCard/VacancyCard';
-import { useAppSelector } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useEffect } from 'react';
+import { getVacancies } from '../../features/vacancies/vacanciesSlice';
 
 function Home() {
   const { items, loading, error } = useAppSelector((state) => state.vacancies);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+   
+    dispatch(getVacancies());
+  }, [dispatch]);
 
   return (
     <Box bg="#F5F5F6" mih="100vh" pt="xl">
