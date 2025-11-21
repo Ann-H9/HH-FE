@@ -3,7 +3,7 @@ import type { Vacancy } from '../../types/vacancy';
 import { fetchVacancies } from '../../services/hhApi';
 import type { RootState } from '../../store';
 
-interface VacanciesState {
+export interface VacanciesState {
   items: Vacancy[];
   total: number;
   loading: boolean;
