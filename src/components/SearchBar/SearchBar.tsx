@@ -2,6 +2,7 @@ import { Button, Flex, TextInput } from '@mantine/core';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setSearchText } from '../../features/filters/filtersSlice';
 import { getVacancies } from '../../features/vacancies/vacanciesSlice';
+import  style  from './SearchBar.module.css';
 
 function SearchBar() {
   const dispatch = useAppDispatch();
@@ -25,7 +26,7 @@ function SearchBar() {
           placeholder="Должность или название компании"
           radius="md"
           size="md"
-          style={{ flex: 1}}
+          className={style.searchInput}
         />
         <Button type="submit" color='#1565C0' radius="md" size="md">
           Найти

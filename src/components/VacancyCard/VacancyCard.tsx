@@ -1,11 +1,17 @@
-import { Card, Text, Badge, Button, Group} from '@mantine/core';
+import { Card, Text, Badge, Button, Group } from '@mantine/core';
 import type { Vacancy } from '../../types/vacancy';
+import style from './VacancyCard.module.css';
+import { Link } from 'react-router-dom';
+import type { ReactNode } from 'react';
 
 interface VacancyCardProps {
   vacancy: Vacancy;
+  hideActions?: boolean; 
+  children?: ReactNode;  
 }
 
-function VacancyCard({ vacancy }: VacancyCardProps) {
+function VacancyCard({ vacancy, hideActions = false, children }: VacancyCardProps) {
+
   const salary =
     vacancy.salary?.from || vacancy.salary?.to
       ? `${vacancy.salary?.from?.toLocaleString() ?? ''} – ${vacancy.salary?.to?.toLocaleString() ?? ''} ${vacancy.salary?.currency ?? '₽'}`
@@ -21,8 +27,15 @@ function VacancyCard({ vacancy }: VacancyCardProps) {
     badgeProps = { color: 'gray', variant: 'light', c: 'dimmed' };
   }
 
+  const scheduleText = 
+    vacancy.schedule?.name === 'remote' ? 'можно удалённо' : 
+    vacancy.schedule?.name === 'hybrid' ? 'гибрид' : 
+    vacancy.schedule?.name === 'office' ? 'офис' : 
+    vacancy.schedule?.name;
+
   return (
     <Card padding="lg" radius="md" shadow="xs" withBorder={false} mb="md">
+
       <Text size="xl" fw={600} c="blue" mb={4}>
         {vacancy.name}
       </Text>
@@ -48,9 +61,7 @@ function VacancyCard({ vacancy }: VacancyCardProps) {
             radius="sm" 
             tt="none" 
          >
-            {vacancy.schedule?.name === 'remote' ? 'МОЖНО УДАЛЁННО' : 
-             vacancy.schedule?.name === 'hybrid' ? 'ГИБРИД' : 
-             vacancy.schedule?.name === 'office' ? 'офис' : vacancy.schedule?.name}
+            {scheduleText}
          </Badge>
       </Group>
       
@@ -59,26 +70,34 @@ function VacancyCard({ vacancy }: VacancyCardProps) {
       </Text>
 
       <Group>
-        <Button 
-          radius="md" 
-          color="dark"
-          size="md"
-          px="xl"
-        >
-          Смотреть вакансию
-        </Button>
-        <Button
-          component="a"
-          href={vacancy.url}
-          target="_blank"
-          radius="md"
-          variant="default"
-          size="md"
-          px="xl"
-          style={{ backgroundColor: '#F5F5F6', border: 'none' }}
-        >
-          Откликнуться
-        </Button>
+        {!hideActions && (
+          <>
+            <Button 
+              radius="md" 
+              color="dark"
+              size="md"
+              px="xl"
+              className={style.buttonLook}
+            >
+            <Link to={`/vacancy/${vacancy.id}`}>
+            Смотреть вакансию
+            </Link>
+            </Button>
+            
+            <Button
+              radius="md"
+              variant="default"
+              size="md"
+              px="xl"
+              className={style.button}
+            >
+              <Link to={`/vacancy/${vacancy.id}`}>
+                Откликнуться
+              </Link>
+            </Button>
+          </>
+        )}
+        {children}
       </Group>
     </Card>
   );

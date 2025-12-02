@@ -21,6 +21,8 @@ const baseVacancy: Vacancy = {
   employer: { name: 'Tech Corp' },
   area: { name: 'Москва' },
   url: 'https://hh.ru/vacancy/123456',
+  description: '',
+  alternate_url: undefined
 };
 
 describe('VacancyCard Component', () => {

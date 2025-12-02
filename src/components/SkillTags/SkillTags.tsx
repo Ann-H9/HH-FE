@@ -11,6 +11,7 @@ import { IconPlus } from '@tabler/icons-react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addSkill, removeSkill } from '../../features/filters/filtersSlice';
 import { getVacancies } from '../../features/vacancies/vacanciesSlice';
+import style from './SkillTags.module.css';
 
 function SkillTags() {
   const dispatch = useAppDispatch();
@@ -51,7 +52,7 @@ function SkillTags() {
           value={newSkill}
           onChange={(e) => setNewSkill(e.target.value)}
           onKeyDown={handleKeyDown}
-          style={{ flex: 1 }}
+          className={style.skillInput}
           radius="md"
         />
         <ActionIcon 

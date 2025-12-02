@@ -1,0 +1,12 @@
+.wrapper {
+  min-height: calc(100vh - 60px);
+}
+
+.stack {
+  max-width: 60%;
+}
+
+.title {
+  font-size: 28px;
+  line-height: 1.2;
+}

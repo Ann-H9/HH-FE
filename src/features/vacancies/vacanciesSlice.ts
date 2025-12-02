@@ -1,11 +1,12 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import  { createSlice, createAsyncThunk, type PayloadAction} from '@reduxjs/toolkit';
 import type { Vacancy } from '../../types/vacancy';
-import { fetchVacancies } from '../../services/hhApi';
+import { fetchVacancies, fetchVacancyById } from '../../services/hhApi'; 
 import type { RootState } from '../../store';
 
 export interface VacanciesState {
   items: Vacancy[];
   total: number;
+  currentVacancy: Vacancy | null; 
   loading: boolean;
   error: string | null;
   page: number;
@@ -14,6 +15,7 @@ export interface VacanciesState {
 const initialState: VacanciesState = {
   items: [],
   total: 0,
+  currentVacancy: null, 
   loading: false,
   error: null,
   page: 0,
@@ -23,7 +25,7 @@ export const getVacancies = createAsyncThunk(
   'vacancies/getVacancies',
   async (_, thunkAPI) => {
     const state = thunkAPI.getState() as RootState;
-    const { searchText, city, skills } = state.filters;
+    const { searchText, city, skills } = state.filters; 
     const { page } = state.vacancies;
 
     try {
@@ -35,8 +37,20 @@ export const getVacancies = createAsyncThunk(
         per_page: 10,
       });
       return response;
-    } catch  {
+    } catch {
       return thunkAPI.rejectWithValue('Ошибка загрузки вакансий');
+    }
+  }
+);
+
+export const getVacancy = createAsyncThunk(
+  'vacancies/getVacancy',
+  async (id: string, thunkAPI) => {
+    try {
+      const data = await fetchVacancyById(id);
+      return data;
+    } catch {
+      return thunkAPI.rejectWithValue('Ошибка загрузки описания вакансии');
     }
   }
 );
@@ -48,6 +62,9 @@ const vacanciesSlice = createSlice({
     setPage(state, action) {
       state.page = action.payload;
     },
+    clearCurrentVacancy(state) {
+      state.currentVacancy = null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -63,9 +80,21 @@ const vacanciesSlice = createSlice({
       .addCase(getVacancies.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+      .addCase(getVacancy.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getVacancy.fulfilled, (state, action: PayloadAction<Vacancy>) => {
+        state.loading = false;
+        state.currentVacancy = action.payload;
+      })
+      .addCase(getVacancy.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });
 
-export const { setPage } = vacanciesSlice.actions;
+export const { setPage, clearCurrentVacancy } = vacanciesSlice.actions;
 export default vacanciesSlice.reducer;

@@ -11,3 +11,35 @@
   --font-main: 'Open Sans', sans-serif;
 }
 
+.active {
+  position: relative;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-primary);
+  animation: pulse 1.5s infinite;
+  transition: all 0.3s ease;
+}
+
+.active::before {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 4px;
+  background: var(--color-accent, #0066ff);
+  border-radius: 2px;
+  animation: expandBar 0.4s ease forwards;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes expandBar {
+  from { width: 0; opacity: 0; }
+  to { width: 40%; opacity: 1; }
+}

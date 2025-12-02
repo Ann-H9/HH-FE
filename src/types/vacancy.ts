@@ -1,4 +1,6 @@
 export interface Vacancy {
+  description: string | TrustedHTML;
+  alternate_url: string | undefined;
   id: string;
   name: string;
   salary?: {
@@ -20,4 +22,6 @@ export interface Vacancy {
     name: string;
   };
   url: string;
+
+  
 }

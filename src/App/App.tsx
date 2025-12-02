@@ -1,16 +1,14 @@
-import Header from '../components/Header/Header';
-import Home from '../pages/Home/Home';
+import { router } from '../router';
 import './App.css'
+import {  RouterProvider } from 'react-router-dom';
+
+
 
 
 function App() {
-  
   return (
-    <>
-  <Header />
-  <Home />
-  </>
-)
+    <RouterProvider router={router} />
+  );
 }
 
 export default App;

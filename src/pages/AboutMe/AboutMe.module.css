@@ -1,0 +1,67 @@
+:root {
+  --color-bg: #ffffff;
+  --color-primary: #1a1a1a;
+  --color-secondary: #555555;
+  --color-accent: #0066ff;
+  --color-surface: #f9f9f9;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  background-color: var(--color-bg);
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--color-primary);
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+.paragraph {
+  margin-bottom: 1.25rem;
+  color: var(--color-secondary);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.skillsTitle {
+  font-weight: 600;
+  margin: 2rem 0 1rem;
+  color: var(--color-primary);
+  font-size: 1.2rem;
+}
+
+.skillsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 0;
+  list-style: none;
+}
+
+.skillItem {
+  background-color: var(--color-surface);
+  border: 1px solid #e0e0e0;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  transition: all 0.2s ease;
+}
+
+.skillItem:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
