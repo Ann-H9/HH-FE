@@ -5,15 +5,16 @@ import style from './Pagination.module.css'
 
 function VacanciesPagination() {
   const dispatch = useAppDispatch();
-  const { total, page } = useAppSelector((state) => state.vacancies);
+  const { total, page, loading } = useAppSelector((state) => state.vacancies);
 
-  
   const totalPages = Math.ceil(total / 10);
 
   const handleChange = (newPage: number) => {
     dispatch(setPage(newPage - 1)); 
     dispatch(getVacancies());
   };
+
+  if (loading) return null;
 
   return (
     <Pagination

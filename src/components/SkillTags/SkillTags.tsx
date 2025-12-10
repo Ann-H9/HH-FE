@@ -10,7 +10,7 @@ import {
 import { IconPlus } from '@tabler/icons-react'; 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addSkill, removeSkill } from '../../features/filters/filtersSlice';
-import { getVacancies } from '../../features/vacancies/vacanciesSlice';
+import { getVacancies, setPage } from '../../features/vacancies/vacanciesSlice';
 import style from './SkillTags.module.css';
 
 function SkillTags() {
@@ -22,6 +22,7 @@ function SkillTags() {
     const trimmed = newSkill.trim();
     if (trimmed) {
       dispatch(addSkill(trimmed));
+      dispatch(setPage(0));
       dispatch(getVacancies());
       setNewSkill('');
     }
@@ -29,6 +30,7 @@ function SkillTags() {
 
   const handleRemove = (skill: string) => {
     dispatch(removeSkill(skill));
+    dispatch(setPage(0));
     dispatch(getVacancies());
   };
 

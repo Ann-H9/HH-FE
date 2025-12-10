@@ -22,6 +22,9 @@ const filtersSlice = createSlice({
     setCity(state, action: PayloadAction<string>) {
       state.city = action.payload;
     },
+    setSkills(state, action: PayloadAction<string[]>) {
+      state.skills = action.payload;
+    },
     addSkill(state, action: PayloadAction<string>) {
       if (!state.skills.includes(action.payload)) {
         state.skills.push(action.payload);
@@ -33,5 +36,5 @@ const filtersSlice = createSlice({
   },
 });
 
-export const { setSearchText, setCity, addSkill, removeSkill } = filtersSlice.actions;
+export const { setSearchText, setCity, setSkills, addSkill, removeSkill } = filtersSlice.actions;
 export default filtersSlice.reducer;

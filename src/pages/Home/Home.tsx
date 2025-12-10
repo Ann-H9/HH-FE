@@ -6,9 +6,9 @@ import VacanciesPagination from '../../components/Pagination/Pagination';
 import VacancyCard from '../../components/VacancyCard/VacancyCard';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useEffect } from 'react';
-import { getVacancies } from '../../features/vacancies/vacanciesSlice';
-import { setCity } from '../../features/filters/filtersSlice';
-import { useParams } from 'react-router-dom';
+import { getVacancies, setPage } from '../../features/vacancies/vacanciesSlice';
+import { setCity, setSearchText, setSkills } from '../../features/filters/filtersSlice';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 const CITY_IDS: Record<string, string> = {
   moscow: '1',
@@ -16,18 +16,43 @@ const CITY_IDS: Record<string, string> = {
 };
 
 function Home() {
-  const { items, loading, error } = useAppSelector((state) => state.vacancies);
+  const { items, loading, error, page } = useAppSelector((state) => state.vacancies);
+  const { searchText, skills } = useAppSelector((state) => state.filters);
   const dispatch = useAppDispatch();
   const { citySlug } = useParams<{ citySlug: string }>();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
+    const params = new URLSearchParams();
+    
+    if (searchText) params.set('search', searchText);
+    if (page > 0) params.set('page', String(page));
+    if (skills.length > 0) params.set('skills', skills.join(','));
 
+    setSearchParams(params);
+  }, [searchText, page, skills, setSearchParams]);
+
+  useEffect(() => {
     const currentCityId = citySlug && CITY_IDS[citySlug] ? CITY_IDS[citySlug] : '1';
-
     dispatch(setCity(currentCityId));
 
+    const searchFromUrl = searchParams.get('search');
+    const pageFromUrl = searchParams.get('page');
+    const skillsFromUrl = searchParams.get('skills');
+
+    if (searchFromUrl) {
+      dispatch(setSearchText(searchFromUrl));
+    }
+    if (pageFromUrl) {
+      dispatch(setPage(parseInt(pageFromUrl, 10)));
+    }
+    if (skillsFromUrl) {
+      const skillsArray = skillsFromUrl.split(',');
+      dispatch(setSkills(skillsArray));
+    }
+
     dispatch(getVacancies());
-  }, [dispatch, citySlug]);
+  }, [dispatch, citySlug, searchParams]);
 
   return (
     <Box bg="#F5F5F6" mih="100vh" pt="xl">
@@ -65,13 +90,17 @@ function Home() {
               {loading && <Text>Загрузка...</Text>}
               {error && <Text c="red">{error}</Text>}
 
-              {!loading && !error && items.map((vacancy) => (
-                <VacancyCard key={vacancy.id} vacancy={vacancy} />
-              ))}
+              {!loading && !error && (
+                <>
+                  {items.map((vacancy) => (
+                    <VacancyCard key={vacancy.id} vacancy={vacancy} />
+                  ))}
 
-               <Group justify="center" mt="xl">
-                <VacanciesPagination />
-              </Group>
+                  <Group justify="center" mt="xl">
+                    <VacanciesPagination />
+                  </Group>
+                </>
+              )}
             </Stack>
           </Grid.Col>
 

@@ -1,7 +1,7 @@
 import { Button, Flex, TextInput } from '@mantine/core';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setSearchText } from '../../features/filters/filtersSlice';
-import { getVacancies } from '../../features/vacancies/vacanciesSlice';
+import { getVacancies, setPage } from '../../features/vacancies/vacanciesSlice';
 import  style  from './SearchBar.module.css';
 
 function SearchBar() {
@@ -14,6 +14,7 @@ function SearchBar() {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    dispatch(setPage(0));
     dispatch(getVacancies());
   };
 
